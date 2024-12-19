@@ -26,3 +26,30 @@ upload.addEventListener('change', (event) => {
     reader.readAsDataURL(file);
 });
 
+//This is for tags
+const tagsInput = document.getElementById('tags');
+const addButton = document.getElementById('add');
+
+let wardrobe = [];
+
+addButton.addEventListener('click', () => {
+    const tags = tagsInput.value.split(',').map(tag => tag.trim());
+    const croppedImage = document.querySelector('#crop-image');
+    if (croppedImage) {
+        wardrobe.push({ image: croppedImage.src, tags });
+        displayWardrobe();
+        tagsInput.value = '';
+    }
+});
+
+function displayWardrobe() {
+    gallery.innerHTML = '';
+    wardrobe.forEach(item => {
+        const img = document.createElement('img');
+        img.src = item.image;
+        const tagText = document.createElement('p');
+        tagText.textContent = `Tags: ${item.tags.join(', ')}`;
+        gallery.appendChild(img);
+        gallery.appendChild(tagText);
+    });
+}
