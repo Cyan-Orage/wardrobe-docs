@@ -1,4 +1,4 @@
-const upload = document.getElementById('upload');
+const upload = document.getElementById('upload');// this is for cropping functionality
 const gallery = document.getElementById('gallery');
 
 upload.addEventListener('change', (event) => {
