@@ -101,3 +101,33 @@ filterByTags.addEventListener('click', () => {
     displayWardrobe(filteredItems);
 });
 
+// Handle new clothing uploads
+document.getElementById('uploadButton').addEventListener('click', () => {
+    const fileInput = document.getElementById('uploadImage');
+    const categorySelect = document.getElementById('categorySelect');
+    const tagsInput = document.getElementById('uploadTags');
+
+    if (!fileInput.files[0]) {
+        alert('Please upload an image.');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const imageSrc = e.target.result;
+        const category = categorySelect.value;
+        const tags = tagsInput.value.split(',').map(tag => tag.trim());
+
+        // Add new clothing item to the wardrobe array
+        wardrobe.push({ image: imageSrc, category, tags });
+
+        // Display updated wardrobe
+        displayWardrobe(wardrobe);
+
+        // Clear the form
+        fileInput.value = '';
+        tagsInput.value = '';
+    };
+
+    reader.readAsDataURL(fileInput.files[0]);
+});
