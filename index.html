@@ -21,3 +21,38 @@
 <!--this is for user interactive cropping before uploading-->
 <input type="text" id="tags" placeholder="Enter tags (comma-separated)" />
 <button id="add">Add to Wardrobe</button>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wardrobe Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Dropdown Menu for Categories -->
+    <div class="dropdown">
+        <button id="categoryButton">Categories</button>
+        <div id="dropdownMenu" class="dropdown-content">
+            <button class="category" data-category="Tops">Tops</button>
+            <button class="category" data-category="Bottoms">Bottoms</button>
+            <button class="category" data-category="Full-body">Full-body</button>
+            <button class="category" data-category="Shoes">Shoes</button>
+            <button class="category" data-category="Accessories">Accessories</button>
+            <button class="category" data-category="Intimates">Intimates</button>
+        </div>
+    </div>
+
+    <!-- Tag Filtering -->
+    <div id="tagFilter">
+        <input type="text" id="tags" placeholder="Filter by tags (comma-separated)">
+        <button id="filterByTags">Filter</button>
+    </div>
+
+    <!-- Clothing Gallery -->
+    <div id="gallery"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
