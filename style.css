@@ -20,3 +20,61 @@ h1 {
     border: 2px solid #ddd;
     border-radius: 8px;
 }
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+#categoryButton {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content button {
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    background-color: white;
+    border: none;
+    display: block;
+}
+
+.dropdown-content button:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+#tagFilter {
+    margin: 20px;
+}
+
+#gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px;
+}
+
+#gallery img {
+    max-width: 150px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
