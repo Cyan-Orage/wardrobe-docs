@@ -1,65 +1,52 @@
-// Reference DOM elements
+// Handle adding new categories or subcategories
+const addCategoryButton = document.getElementById('addCategoryButton');
+const newCategoryInput = document.getElementById('newCategory');
+const parentCategorySelect = document.getElementById('parentCategory');
 const dropdownMenu = document.getElementById('dropdownMenu');
-const gallery = document.getElementById('gallery');
-let wardrobe = [
-    { image: "top1.png", category: "T-Shirts", tags: ["casual", "summer"] },
-    { image: "dress1.png", category: "Dresses", tags: ["formal", "evening"] },
-    { image: "skort1.png", category: "Skorts", tags: ["sport", "summer"] },
-    // Add more items as needed
-];
 
-// Display wardrobe items in the gallery
-function displayWardrobe(items) {
-    gallery.innerHTML = '';
-    items.forEach(item => {
-        const img = document.createElement('img');
-        img.src = item.image;
-        img.alt = item.category;
-        gallery.appendChild(img);
+addCategoryButton.addEventListener('click', () => {
+    const newCategory = newCategoryInput.value.trim();
+    const parentCategory = parentCategorySelect.value;
 
-        const tagText = document.createElement('p');
-        tagText.textContent = `Tags: ${item.tags.join(', ')}`;
-        gallery.appendChild(tagText);
-    });
-}
-
-// Initial display of all items
-displayWardrobe(wardrobe);
-
-// Filter by category
-dropdownMenu.addEventListener('click', event => {
-    if (event.target.classList.contains('subcategory')) {
-        const category = event.target.getAttribute('data-category');
-        const filteredItems = wardrobe.filter(item => item.category === category);
-        displayWardrobe(filteredItems);
-    }
-});
-
-// Example: Handle adding new items
-const uploadButton = document.getElementById('uploadButton');
-uploadButton.addEventListener('click', () => {
-    const fileInput = document.getElementById('uploadImage');
-    const categorySelect = document.getElementById('categorySelect');
-    const tagsInput = document.getElementById('uploadTags');
-
-    if (!fileInput.files[0]) {
-        alert('Please upload an image.');
+    if (!newCategory) {
+        alert("Please enter a category name.");
         return;
     }
 
-    const reader = new FileReader();
-    reader.onload = e => {
-        const imageSrc = e.target.result;
-        const category = categorySelect.value;
-        const tags = tagsInput.value.split(',').map(tag => tag.trim());
+    // Create the new category button
+    const newCategoryButton = document.createElement('button');
+    newCategoryButton.textContent = newCategory;
+    newCategoryButton.classList.add('subcategory');
+    newCategoryButton.setAttribute('data-category', newCategory);
 
-        wardrobe.push({ image: imageSrc, category, tags });
-        displayWardrobe(wardrobe);
+    if (parentCategory) {
+        // Add as a subcategory under the selected parent category
+        const parentMenu = [...dropdownMenu.querySelectorAll('.category')]
+            .find(btn => btn.textContent === parentCategory)
+            ?.nextElementSibling;
 
-        // Clear form
-        fileInput.value = '';
-        tagsInput.value = '';
-    };
+        if (parentMenu) {
+            const subMenu = parentMenu.querySelector('.sub-menu');
+            if (!subMenu) {
+                const newSubMenu = document.createElement('div');
+                newSubMenu.classList.add('sub-menu');
+                parentMenu.appendChild(newSubMenu);
+                newSubMenu.appendChild(newCategoryButton);
+            } else {
+                subMenu.appendChild(newCategoryButton);
+            }
+        } else {
+            alert("Parent category not found.");
+        }
+    } else {
+        // Add as a new main category
+        const newDropdownItem = document.createElement('div');
+        newDropdownItem.classList.add('dropdown-item');
+        newDropdownItem.appendChild(newCategoryButton);
+        dropdownMenu.appendChild(newDropdownItem);
+    }
 
-    reader.readAsDataURL(fileInput.files[0]);
+    // Clear inputs
+    newCategoryInput.value = '';
+    parentCategorySelect.value = '';
 });
