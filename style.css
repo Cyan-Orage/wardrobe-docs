@@ -1,36 +1,53 @@
-// Handle cropping functionality (Cropper.js)
-uploadInput.addEventListener('change', event => {
-    const file = event.target.files[0];
-    if (!file) return;
+/* Dropdown Menu Styles */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
 
-    const reader = new FileReader();
-    reader.onload = e => {
-        const image = document.createElement('img');
-        image.src = e.target.result;
-        image.id = 'crop-image';
-        gallery.innerHTML = ''; // Clear gallery for cropping
-        gallery.appendChild(image);
+#categoryButton {
+    padding: 10px 20px;
+    cursor: pointer;
+}
 
-        const cropper = new Cropper(image, {
-            aspectRatio: 1, // Adjust aspect ratio if needed
-            crop(event) {
-                console.log(`Crop details: X=${event.detail.x}, Y=${event.detail.y}, Width=${event.detail.width}, Height=${event.detail.height}`);
-            }
-        });
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    padding: 10px;
+    border-radius: 5px;
+    min-width: 200px;
+}
 
-        // Add a save button to finalize the crop
-        const saveCropButton = document.createElement('button');
-        saveCropButton.textContent = "Save Crop";
-        saveCropButton.addEventListener('click', () => {
-            const canvas = cropper.getCroppedCanvas();
-            const croppedImage = canvas.toDataURL('image/png');
-            wardrobe.push({ image: croppedImage, category: "Uncategorized", tags: [] });
-            displayWardrobe(wardrobe);
-            cropper.destroy(); // Remove cropper instance
-            gallery.innerHTML = ''; // Clear the gallery
-        });
-        gallery.appendChild(saveCropButton);
-    };
+.dropdown:hover .dropdown-content {
+    display: block;
+}
 
-    reader.readAsDataURL(file);
-});
+.dropdown-item {
+    margin-bottom: 10px;
+}
+
+.sub-menu {
+    margin-left: 20px;
+    display: none;
+    background-color: #f1f1f1;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.dropdown-item:hover > .sub-menu {
+    display: block;
+}
+
+button {
+    border: none;
+    background: none;
+    padding: 8px 12px;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    backgr
