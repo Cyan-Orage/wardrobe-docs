@@ -78,3 +78,22 @@ body {
     border: 1px solid #ddd;
     border-radius: 5px;
 }
+
+#uploadSection {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+#uploadSection input,
+#uploadSection select,
+#uploadSection button {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+}
+
