@@ -53,3 +53,51 @@ function displayWardrobe() {
         gallery.appendChild(tagText);
     });
 }
+
+// Sample wardrobe data
+let wardrobe = [
+    { image: "top1.png", category: "Tops", tags: ["casual", "summer"] },
+    { image: "dress1.png", category: "Full-body", tags: ["formal", "evening"] },
+    { image: "shoes1.png", category: "Shoes", tags: ["sport", "casual"] },
+    // Add more items as needed
+];
+
+const gallery = document.getElementById('gallery');
+const dropdownMenu = document.getElementById('dropdownMenu');
+const tagInput = document.getElementById('tags');
+const filterByTags = document.getElementById('filterByTags');
+
+// Display all wardrobe items in the gallery
+function displayWardrobe(items) {
+    gallery.innerHTML = '';
+    items.forEach(item => {
+        const img = document.createElement('img');
+        img.src = item.image;
+        img.alt = item.category;
+        gallery.appendChild(img);
+
+        const tagText = document.createElement('p');
+        tagText.textContent = `Tags: ${item.tags.join(', ')}`;
+        gallery.appendChild(tagText);
+    });
+}
+
+// Initial display of all items
+displayWardrobe(wardrobe);
+
+// Filter by category
+dropdownMenu.addEventListener('click', (event) => {
+    if (event.target.classList.contains('category')) {
+        const category = event.target.getAttribute('data-category');
+        const filteredItems = wardrobe.filter(item => item.category === category);
+        displayWardrobe(filteredItems);
+    }
+});
+
+// Filter by tags
+filterByTags.addEventListener('click', () => {
+    const tags = tagInput.value.split(',').map(tag => tag.trim());
+    const filteredItems = wardrobe.filter(item => tags.every(tag => item.tags.includes(tag)));
+    displayWardrobe(filteredItems);
+});
+
