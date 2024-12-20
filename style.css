@@ -12,6 +12,7 @@
 .dropdown-content {
     display: none;
     position: absolute;
+    left: 0;
     background-color: #f9f9f9;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
@@ -24,16 +25,17 @@
     display: block;
 }
 
-.dropdown-item {
-    margin-bottom: 10px;
-}
-
+/* Sub-menu Styling */
 .sub-menu {
-    margin-left: 20px;
     display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
     background-color: #f1f1f1;
-    padding: 5px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 10px;
     border-radius: 5px;
+    min-width: 150px;
 }
 
 .dropdown-item:hover > .sub-menu {
@@ -50,4 +52,11 @@ button {
 }
 
 button:hover {
-    backgr
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+/* Optional spacing for other sections */
+#tagFilter, #uploadSection, #gallery {
+    margin: 20px 0;
+}
