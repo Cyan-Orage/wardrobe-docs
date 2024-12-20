@@ -21,3 +21,78 @@
                     <button class="subcategory" data-category="Blouses">Blouses</button>
                     <button class="subcategory" data-category="Sweaters">Sweaters</button>
                 </div>
+            </div>
+            <div class="dropdown-item">
+                <button class="category">Bottoms</button>
+                <div class="sub-menu">
+                    <button class="subcategory" data-category="Jeans">Jeans</button>
+                    <button class="subcategory" data-category="Skirts">Skirts</button>
+                    <div class="dropdown-item">
+                        <button class="subcategory">Skirts</button>
+                        <div class="sub-menu">
+                            <button class="subcategory" data-category="Skorts">Skorts</button>
+                        </div>
+                    </div>
+                    <button class="subcategory" data-category="Shorts">Shorts</button>
+                </div>
+            </div>
+            <div class="dropdown-item">
+                <button class="category">Full-body</button>
+                <div class="sub-menu">
+                    <button class="subcategory" data-category="Dresses">Dresses</button>
+                    <button class="subcategory" data-category="Jumpsuits">Jumpsuits</button>
+                </div>
+            </div>
+            <div class="dropdown-item">
+                <button class="category">Shoes</button>
+                <div class="sub-menu">
+                    <button class="subcategory" data-category="Sneakers">Sneakers</button>
+                    <button class="subcategory" data-category="Boots">Boots</button>
+                </div>
+            </div>
+            <div class="dropdown-item">
+                <button class="category">Accessories</button>
+                <div class="sub-menu">
+                    <button class="subcategory" data-category="Bags">Bags</button>
+                    <button class="subcategory" data-category="Hats">Hats</button>
+                </div>
+            </div>
+            <div class="dropdown-item">
+                <button class="category">Intimates</button>
+                <div class="sub-menu">
+                    <button class="subcategory" data-category="Underwear">Underwear</button>
+                    <button class="subcategory" data-category="Socks">Socks</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tag Filtering -->
+    <div id="tagFilter">
+        <input type="text" id="tags" placeholder="Filter by tags (comma-separated)">
+        <button id="filterByTags">Filter</button>
+    </div>
+
+    <!-- Clothing Upload Section -->
+    <div id="uploadSection">
+        <h2>Upload New Clothing Item</h2>
+        <input type="file" id="uploadImage" accept="image/*">
+        <select id="categorySelect">
+            <option value="Tops">Tops</option>
+            <option value="Bottoms">Bottoms</option>
+            <option value="Full-body">Full-body</option>
+            <option value="Shoes">Shoes</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Intimates">Intimates</option>
+        </select>
+        <input type="text" id="uploadTags" placeholder="Enter tags (comma-separated)">
+        <button id="uploadButton">Add to Wardrobe</button>
+    </div>
+
+    <!-- Clothing Gallery -->
+    <div id="gallery"></div>
+
+    <script src="https://unpkg.com/cropperjs"></script>
+    <script src="script.js"></script>
+</body>
+</html>
