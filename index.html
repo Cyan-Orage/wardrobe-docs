@@ -15,7 +15,7 @@
         <button id="categoryButton">Categories</button>
         <div id="dropdownMenu" class="dropdown-content">
             <div class="dropdown-item">
-                <button class="category">Tops</button>
+                <button class="category" data-locked="true">Tops</button>
                 <div class="sub-menu">
                     <button class="subcategory" data-category="T-Shirts">T-Shirts</button>
                     <button class="subcategory" data-category="Blouses">Blouses</button>
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="dropdown-item">
-                <button class="category">Bottoms</button>
+                <button class="category" data-locked="true">Bottoms</button>
                 <div class="sub-menu">
                     <button class="subcategory" data-category="Jeans">Jeans</button>
                     <button class="subcategory" data-category="Skirts">Skirts</button>
@@ -37,28 +37,28 @@
                 </div>
             </div>
             <div class="dropdown-item">
-                <button class="category">Full-body</button>
+                <button class="category" data-locked="true">Full-body</button>
                 <div class="sub-menu">
                     <button class="subcategory" data-category="Dresses">Dresses</button>
                     <button class="subcategory" data-category="Jumpsuits">Jumpsuits</button>
                 </div>
             </div>
             <div class="dropdown-item">
-                <button class="category">Shoes</button>
+                <button class="category" data-locked="true">Shoes</button>
                 <div class="sub-menu">
                     <button class="subcategory" data-category="Sneakers">Sneakers</button>
                     <button class="subcategory" data-category="Boots">Boots</button>
                 </div>
             </div>
             <div class="dropdown-item">
-                <button class="category">Accessories</button>
+                <button class="category" data-locked="true">Accessories</button>
                 <div class="sub-menu">
                     <button class="subcategory" data-category="Bags">Bags</button>
                     <button class="subcategory" data-category="Hats">Hats</button>
                 </div>
             </div>
             <div class="dropdown-item">
-                <button class="category">Intimates</button>
+                <button class="category" data-locked="true">Intimates</button>
                 <div class="sub-menu">
                     <button class="subcategory" data-category="Underwear">Underwear</button>
                     <button class="subcategory" data-category="Socks">Socks</button>
@@ -81,6 +81,15 @@
             <option value="Intimates">Intimates</option>
         </select>
         <button id="addCategoryButton">Add Category</button>
+    </div>
+
+    <!-- Remove Categories Section -->
+    <div id="removeMenuSection">
+        <h2>Remove Categories</h2>
+        <select id="removeCategory">
+            <option value="">Select category to remove</option>
+        </select>
+        <button id="removeCategoryButton">Remove Category</button>
     </div>
 
     <!-- Tag Filtering -->
@@ -108,7 +117,99 @@
     <!-- Clothing Gallery -->
     <div id="gallery"></div>
 
-    <script src="https://unpkg.com/cropperjs"></script>
-    <script src="script.js"></script>
+    <script>
+        // Handle adding new categories or subcategories
+        const addCategoryButton = document.getElementById('addCategoryButton');
+        const newCategoryInput = document.getElementById('newCategory');
+        const parentCategorySelect = document.getElementById('parentCategory');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const removeCategorySelect = document.getElementById('removeCategory');
+        const removeCategoryButton = document.getElementById('removeCategoryButton');
+
+        // Populate removable categories (excluding locked ones)
+        function populateRemoveCategorySelect() {
+            removeCategorySelect.innerHTML = '<option value="">Select category to remove</option>';
+            const categories = dropdownMenu.querySelectorAll('.category:not([data-locked="true"])');
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.textContent;
+                option.textContent = category.textContent;
+                removeCategorySelect.appendChild(option);
+            });
+        }
+
+        addCategoryButton.addEventListener('click', () => {
+            const newCategory = newCategoryInput.value.trim();
+            const parentCategory = parentCategorySelect.value;
+
+            if (!newCategory) {
+                alert("Please enter a category name.");
+                return;
+            }
+
+            const newCategoryButton = document.createElement('button');
+            newCategoryButton.textContent = newCategory;
+            newCategoryButton.classList.add('subcategory');
+            newCategoryButton.setAttribute('data-category', newCategory);
+
+            if (parentCategory) {
+                const parentMenu = [...dropdownMenu.querySelectorAll('.category')]
+                    .find(btn => btn.textContent === parentCategory)
+                    ?.nextElementSibling;
+
+                if (parentMenu) {
+                    const subMenu = parentMenu.querySelector('.sub-menu');
+                    if (!subMenu) {
+                        const newSubMenu = document.createElement('div');
+                        newSubMenu.classList.add('sub-menu');
+                        parentMenu.appendChild(newSubMenu);
+                        newSubMenu.appendChild(newCategoryButton);
+                    } else {
+                        subMenu.appendChild(newCategoryButton);
+                    }
+                } else {
+                    alert("Parent category not found.");
+                }
+            } else {
+                const newDropdownItem = document.createElement('div');
+                newDropdownItem.classList.add('dropdown-item');
+                newDropdownItem.appendChild(newCategoryButton);
+                dropdownMenu.appendChild(newDropdownItem);
+            }
+
+            newCategoryInput.value = '';
+            parentCategorySelect.value = '';
+            populateRemoveCategorySelect();
+        });
+
+        // Handle removing categories
+        removeCategoryButton.addEventListener('click', () => {
+            const categoryToRemove = removeCategorySelect.value;
+            if (!categoryToRemove) {
+                alert("Please select a category to remove.");
+                return;
+            }
+
+            const categoryButton = [...dropdownMenu.querySelectorAll('.category, .subcategory')]
+                .find(btn => btn.textContent === categoryToRemove);
+
+            if (categoryButton) {
+                const parent = categoryButton.closest('.dropdown-item, .sub-menu');
+                parent.removeChild(categoryButton);
+
+                if (parent && parent.classList.contains('sub-menu') && parent.children.length === 0) {
+                    parent.remove(); // Remove empty sub-menu
+                }
+
+                populateRemoveCategorySelect();
+            } else {
+                alert("Category not found.");
+            }
+        });
+
+        // Initialize removable categories list
+        populateRemoveCategorySelect();
+    </script>
+
 </body>
 </html>
