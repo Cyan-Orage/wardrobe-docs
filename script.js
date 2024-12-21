@@ -3,6 +3,20 @@ const addCategoryButton = document.getElementById('addCategoryButton');
 const newCategoryInput = document.getElementById('newCategory');
 const parentCategorySelect = document.getElementById('parentCategory');
 const dropdownMenu = document.getElementById('dropdownMenu');
+const removeCategorySelect = document.getElementById('removeCategory');
+const removeCategoryButton = document.getElementById('removeCategoryButton');
+
+// Populate removable categories (excluding locked ones)
+function populateRemoveCategorySelect() {
+    removeCategorySelect.innerHTML = '<option value="">Select category to remove</option>';
+    const categories = dropdownMenu.querySelectorAll('.category:not([data-locked="true"])');
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.textContent;
+        option.textContent = category.textContent;
+        removeCategorySelect.appendChild(option);
+    });
+}
 
 addCategoryButton.addEventListener('click', () => {
     const newCategory = newCategoryInput.value.trim();
@@ -45,24 +59,33 @@ addCategoryButton.addEventListener('click', () => {
 
     newCategoryInput.value = '';
     parentCategorySelect.value = '';
+    populateRemoveCategorySelect();
 });
 
-// Validate and handle image uploads
-const uploadImageInput = document.getElementById('uploadImage');
-const validFormats = ['image/jpeg', 'image/png', 'image/webp'];
-
-uploadImageInput.addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (!file) {
-        alert('No file selected.');
+// Handle removing categories
+removeCategoryButton.addEventListener('click', () => {
+    const categoryToRemove = removeCategorySelect.value;
+    if (!categoryToRemove) {
+        alert("Please select a category to remove.");
         return;
     }
 
-    if (!validFormats.includes(file.type)) {
-        alert('Invalid file format. Please upload a JPEG, PNG, or WEBP image.');
-        uploadImageInput.value = '';
-        return;
-    }
+    const categoryButton = [...dropdownMenu.querySelectorAll('.category, .subcategory')]
+        .find(btn => btn.textContent === categoryToRemove);
 
-    console.log('File format is valid:', file.type);
+    if (categoryButton) {
+        const parent = categoryButton.closest('.dropdown-item, .sub-menu');
+        parent.removeChild(categoryButton);
+
+        if (parent && parent.classList.contains('sub-menu') && parent.children.length === 0) {
+            parent.remove(); // Remove empty sub-menu
+        }
+
+        populateRemoveCategorySelect();
+    } else {
+        alert("Category not found.");
+    }
 });
+
+// Initialize removable categories list
+populateRemoveCategorySelect();
