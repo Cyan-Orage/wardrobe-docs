@@ -13,14 +13,12 @@ addCategoryButton.addEventListener('click', () => {
         return;
     }
 
-    // Create the new category button
     const newCategoryButton = document.createElement('button');
     newCategoryButton.textContent = newCategory;
     newCategoryButton.classList.add('subcategory');
     newCategoryButton.setAttribute('data-category', newCategory);
 
     if (parentCategory) {
-        // Add as a subcategory under the selected parent category
         const parentMenu = [...dropdownMenu.querySelectorAll('.category')]
             .find(btn => btn.textContent === parentCategory)
             ?.nextElementSibling;
@@ -39,14 +37,32 @@ addCategoryButton.addEventListener('click', () => {
             alert("Parent category not found.");
         }
     } else {
-        // Add as a new main category
         const newDropdownItem = document.createElement('div');
         newDropdownItem.classList.add('dropdown-item');
         newDropdownItem.appendChild(newCategoryButton);
         dropdownMenu.appendChild(newDropdownItem);
     }
 
-    // Clear inputs
     newCategoryInput.value = '';
     parentCategorySelect.value = '';
+});
+
+// Validate and handle image uploads
+const uploadImageInput = document.getElementById('uploadImage');
+const validFormats = ['image/jpeg', 'image/png', 'image/webp'];
+
+uploadImageInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) {
+        alert('No file selected.');
+        return;
+    }
+
+    if (!validFormats.includes(file.type)) {
+        alert('Invalid file format. Please upload a JPEG, PNG, or WEBP image.');
+        uploadImageInput.value = '';
+        return;
+    }
+
+    console.log('File format is valid:', file.type);
 });
